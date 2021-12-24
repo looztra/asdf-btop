@@ -60,7 +60,7 @@ download_release() {
   # TODO: Adapt the release URL convention for btop
   url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-$(get_platform).tbz"
 
-  echo "* Downloading $TOOL_NAME release $version..."
+  echo "* Downloading $TOOL_NAME release $version from url [${url}]..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
