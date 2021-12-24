@@ -36,13 +36,29 @@ list_all_versions() {
   list_github_tags
 }
 
+get_platform() {
+  local arch target
+
+  arch=$(uname -m)
+
+  case $arch in
+  armv5l) target="armv5l-linux-musleabi" ;;
+  armv7l) target="armv7l-linux-musleabihf" ;;
+  aarch64) arch="aarch64-linux-musl" ;;
+  x86_64) arch="x86_64-linux-musl" ;;
+  i686) arch="i686-linux-musl" ;;
+  i386) arch="i386-linux-musl" ;;
+  esac
+  echo "$target"
+}
+
 download_release() {
   local version filename url
   version="$1"
   filename="$2"
 
   # TODO: Adapt the release URL convention for btop
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-$(get_platform).tbz"
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
