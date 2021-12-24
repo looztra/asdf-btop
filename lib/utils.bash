@@ -44,10 +44,10 @@ get_platform() {
   case $arch in
   armv5l) target="armv5l-linux-musleabi" ;;
   armv7l) target="armv7l-linux-musleabihf" ;;
-  aarch64) arch="aarch64-linux-musl" ;;
-  x86_64) arch="x86_64-linux-musl" ;;
-  i686) arch="i686-linux-musl" ;;
-  i386) arch="i386-linux-musl" ;;
+  aarch64) target="atarget64-linux-musl" ;;
+  x86_64) target="x86_64-linux-musl" ;;
+  i686) target="i686-linux-musl" ;;
+  i386) target="i386-linux-musl" ;;
   esac
   echo "$target"
 }
