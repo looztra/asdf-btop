@@ -66,7 +66,7 @@ get_platform() {
     fi
     ;;
   i686) target="i686-linux-musl" ;;
-  i386) target="i386-linux-musl" ;;
+  i486) target="i486-linux-musl" ;;
   *) target="unknown-target--${arch}--${kernel_name}" ;;
   esac
   echo "$target"
