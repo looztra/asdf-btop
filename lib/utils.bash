@@ -37,17 +37,38 @@ list_all_versions() {
 }
 
 get_platform() {
-  local arch target
+  local arch kernel_name target
 
   arch=$(uname -m)
+  kernel_name=$(uname -s | tr '[:upper:]' '[:lower:]')
+  if [[ "${kernel_name}" == "darwin" ]]; then
+    kernel_name=macos
+  fi
+
 
   case $arch in
   armv5l) target="armv5l-linux-musleabi" ;;
   armv7l) target="armv7l-linux-musleabihf" ;;
-  aarch64) target="atarget64-linux-musl" ;;
-  x86_64) target="x86_64-linux-musl" ;;
+  aarch64) target="aarch64-linux-musl" ;;
+  arm64)
+    if [[ "${kernel_name}" == "macos" ]]; then
+      target="arm64-macos-bigsur"
+    else
+      target="unknown-arm64-target--${arch}--${kernel_name}"
+    fi
+    ;;
+  x86_64)
+    if [[ "${kernel_name}" == "linux" ]]; then
+      target="x86_64-linux-musl"
+    elif [[ "${kernel_name}" == "macos" ]]; then
+      target="x86_64-macos-bigsur"
+    else
+      target="unknown-x86_64-target--${arch}--${kernel_name}"
+    fi
+    ;;
   i686) target="i686-linux-musl" ;;
   i386) target="i386-linux-musl" ;;
+  *) target="unknown-target--${arch}--${kernel_name}" ;;
   esac
   echo "$target"
 }
@@ -60,7 +81,7 @@ download_release() {
   # TODO: Adapt the release URL convention for btop
   url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-$(get_platform).tbz"
 
-  echo "* Downloading $TOOL_NAME release $version from url [${url}]..."
+  echo "* Downloading $TOOL_NAME release $version from url [${}]..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
