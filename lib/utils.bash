@@ -45,7 +45,6 @@ get_platform() {
     kernel_name=macos
   fi
 
-
   case $arch in
   armv5l) target="armv5l-linux-musleabi" ;;
   armv7l) target="armv7l-linux-musleabihf" ;;
@@ -81,7 +80,7 @@ download_release() {
   # TODO: Adapt the release URL convention for btop
   url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}-$(get_platform).tbz"
 
-  echo "* Downloading $TOOL_NAME release $version from url [${}]..."
+  echo "* Downloading $TOOL_NAME release $version from url [${url}]..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
